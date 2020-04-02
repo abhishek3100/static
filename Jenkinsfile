@@ -1,7 +1,7 @@
 pipeline{
     agent any
     stages{
-        stage('Upload to AWS'){
+        stage('Build'){
             steps{
                 sh 'echo "Hello World"'
                 sh '''
@@ -12,12 +12,11 @@ pipeline{
         }
     }
         stage('Uploading to AWS') {
-        steps {
-            withAWS(region: 'us-east-2', credentials: 'aws-static') {
-            sh 'echo "Uploading content with AWS creds"'
-            s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file: 'index.html', bucket: 'jenkins-aws-nd')
+            steps{
+                withAWS(region: 'us-east-2', credentials: 'aws-static') {
+                sh 'echo "Uploading content with AWS creds"'
+                s3Upload(pathStyleAccessEnabled: true, payloadSigningEnabled: true, file: 'index.html', bucket: 'jenkins-aws-nd')
             }
-
         }
     }
 }
