@@ -39,28 +39,33 @@ To connect to your instance using your key pair, follow these steps. Right click
 
 B. Install Jenkins On Ubuntu
 Here are the key commands for installation:
-
+'''
 apt update
 apt upgrade
 apt install default-jdk
-
+'''
 The Jenkins version you get with the default Ubuntu packages is often not the latest available version you can get from the Jenkins project itself. For the most recent features and fixes, you can use the packages from the Jenkins site to install Jenkins.
 
 First, use wget to add the repo key to the system:
-
-wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
+'''
+wget -q -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add - 
+'''
 When the key is added, the system returns OK. Next, append the Debian package repo address to the server's sources.list:
-
+'''
 sudo sh -c 'echo deb http://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+'''
 When both of these are all set, run update so that apt will use the new repo:
-
+'''
 sudo apt update
+'''
 Lastly, install Jenkins and its dependencies:
-
+'''
 sudo apt install jenkins
+'''
 Since systemctl doesn't produce output, you can use its status command to confirm that Jenkins began successfully:
-
+'''
 sudo systemctl status jenkins
+'''
 If all went well, the first lines of the output will show that the service is active and configured to start at boot, as shown below:
 
 
@@ -69,9 +74,9 @@ Visit Jenkins on its default port, 8080, with your server IP address or domain n
 
 
 Next you will see the "Unlock Jenkins" screen, displaying the location of the initial password. In the terminal, use cat to show the password:
-
+'''
 sudo cat /var/lib/jenkins/secrets/initialAdminPassword
-
+'''
 Copy and paste the 32-character alphanumeric password from the terminal into the Admin password field, then Continue.
 
 The next screen gives you the choice of installing recommended plugins, or selecting specific plugins - choose the Install suggested plugins option, which quickly begins the installation process.
@@ -89,9 +94,9 @@ Use the "Available" tab, filter by "Blue Ocean," select the first option ("BlueO
 Filter once again for "pipeline-aws" and install, this time selecting "Download now and install after restart."
 
 Once all plugins are installed, Jenkins will restart. If it hasn't restarted, run the following in the VM:
-
+'''
 sudo systemctl restart jenkins
-
+'''
 Verify everything is working for Blue Ocean by logging in. An "Open Blue Ocean" link should show up in the sidebar. Click it, and it will take you to the "Blue Ocean" screen, where we will have to add a project.
 
 
@@ -107,6 +112,7 @@ Create a new repository in your GitHub account named 'static'. In the repo, crea
 The "Jenkinsfile" should look like this:
 
 The "index.html" file should look like this:
+'''
 <!doctype html>
 <html>
   <head>
@@ -116,6 +122,7 @@ The "index.html" file should look like this:
     <p>This is the first paragraph in a simple Static HTML site. There is no <strong>CSS</strong> or <strong>JavaScript</script>.</p>
   </body>
 </html>
+'''
 Commit and push your changes.
 
 Select GitHub from the options available, a token needs to be generated. A link to https://github.com/settings/tokens/new?scopes=repo,read:user,user:email,write:repo_hook needs to be clicked to generate a token for Jenkins to use. You can select the default scopes in the opened link, that defines the access for a personal token for Jenkins.
